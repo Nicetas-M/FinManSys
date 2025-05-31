@@ -10,6 +10,7 @@ class ApiResponseClass {
 
     public static function rollback($e, $message = "Something went wrong! Process not completed") {
         DB::rollback();
+        self::throw($e, $message);
     }
 
     public static function throw($e, $message = "Something went wrong! Process not completed") {
