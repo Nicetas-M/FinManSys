@@ -13,6 +13,8 @@ class FinancialOperation extends Model
 
     protected $table = 'financial_operations';
 
+    protected $guarded = [];
+
     public function taxesPayments(): HasOne {
         return $this->hasOne(TaxesPayment::class, 'financial_operation_id', 'id');
     }

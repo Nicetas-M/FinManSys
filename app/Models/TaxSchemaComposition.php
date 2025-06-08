@@ -10,4 +10,6 @@ class TaxSchemaComposition extends Model
     use HasFactory;
 
     protected $table = 'tax_schemas_compositions';
+
+    protected $guarded = [];
 }

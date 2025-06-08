@@ -12,11 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tax_schemas_compositions', function (Blueprint $table) {
-            $table->id('tax_schema_id');
-            $table->id('tax_type_id');
+            $table->id();
+            $table->integer('tax_schema_id');
+            $table->integer('tax_type_id');
             $table->timestamps();
 
-            $table->primary(['tax_schema_id', 'tax_type_id']);
+            //$table->primary(['tax_schema_id', 'tax_type_id']);
 
             $table->foreign('tax_schema_id')->references('id')->on('tax_schemas');
             $table->foreign('tax_type_id')->references('id')->on('tax_types');

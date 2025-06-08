@@ -2,15 +2,9 @@
 
 namespace App\Http\Requests;
 
-use App\Traits\RequestFailedValidation;
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Validation\Rule;
 
-class UpdateUserRequest extends FormRequest {
-    use RequestFailedValidation;
-
+class UpdateTaxTypeRequest extends FormRequest {
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -25,12 +19,8 @@ class UpdateUserRequest extends FormRequest {
      */
     public function rules(): array {
         return [
-            'name' => 'string|max:255',
-            'email' => [
-                'email',
-                Rule::unique('users', 'email')->ignore($this->user),
-            ],
-            'password' => 'string|min:8',
+            'name' => 'required|string',
+            'formula' => 'string',
         ];
     }
 }

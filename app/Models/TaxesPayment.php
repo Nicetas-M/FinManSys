@@ -13,6 +13,8 @@ class TaxesPayment extends Model
 
     protected $table = 'taxes_payments';
 
+    protected $guarded = [];
+
     public function user(): BelongsTo {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }

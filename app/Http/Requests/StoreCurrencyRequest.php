@@ -3,18 +3,17 @@
 namespace App\Http\Requests;
 
 use App\Traits\RequestFailedValidation;
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Validation\Rule;
 
-class UpdateUserRequest extends FormRequest {
+class StoreCurrencyRequest extends FormRequest
+{
     use RequestFailedValidation;
 
     /**
      * Determine if the user is authorized to make this request.
      */
-    public function authorize(): bool {
+    public function authorize(): bool
+    {
         return true;
     }
 
@@ -23,14 +22,12 @@ class UpdateUserRequest extends FormRequest {
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array {
+    public function rules(): array
+    {
         return [
-            'name' => 'string|max:255',
-            'email' => [
-                'email',
-                Rule::unique('users', 'email')->ignore($this->user),
-            ],
-            'password' => 'string|min:8',
+            'alfa-3' => 'required|max:3|min:3|string|unique:currencies,alfa-3',
+            'number-3' => 'required|digits:3|numeric|unique:currencies,number-3',
+            'name' => 'required',
         ];
     }
 }

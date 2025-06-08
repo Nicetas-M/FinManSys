@@ -6,29 +6,21 @@ use App\Classes\ApiResponseClass;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
-use App\Interfaces\RepositoryInterface;
-use Illuminate\Http\Request;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller {
-    private RepositoryInterface $repositoryInterface;
-
-    public function __construct(RepositoryInterface $repositoryInterface) {
-        $this->repositoryInterface = $repositoryInterface;
-    }
 
     public function index() {
-        $data = $this->repositoryInterface->index();
+        $data = User::all();
+
         return ApiResponseClass::sendResponse(UserResource::collection($data), '', 200);
     }
 
-    public function create() {
-
-    }
+    public function create() {}
 
     public function store(StoreUserRequest $request) {
-        $details = [
+        $storeDetails = [
             'name' => $request->name,
             'email' => $request->email,
             'password' => $request->password,
@@ -36,9 +28,9 @@ class UserController extends Controller {
         ];
         DB::beginTransaction();
         try {
-            $user = $this->repositoryInterface->store($details);
-
+            $user = User::create($storeDetails);
             DB::commit();
+
             return ApiResponseClass::sendResponse(new UserResource($user), 'User created successfully.', 201);
         } catch (\Exception $e) {
             return ApiResponseClass::rollback($e);
@@ -46,7 +38,8 @@ class UserController extends Controller {
     }
 
     public function show($id) {
-        $user = $this->repositoryInterface->getById($id);
+        $user = User::findOrFail($id);
+
         return ApiResponseClass::sendResponse(new UserResource($user), '', 200);
     }
 
@@ -61,12 +54,11 @@ class UserController extends Controller {
         ];
         DB::beginTransaction();
         try {
-            $user = $this->repositoryInterface->update($id, $updateDetails);
-
+            $user = User::whereId($id)->update($updateDetails);
             DB::commit();
+
             return ApiResponseClass::sendResponse('User updated successfully.', '', 200);
         } catch (\Exception $e) {
-
             return ApiResponseClass::rollback($e);
         }
     }
@@ -74,9 +66,9 @@ class UserController extends Controller {
     public function destroy($id) {
         DB::beginTransaction();
         try {
-            $this->repositoryInterface->delete($id);
-
+            User::destroy($id);
             DB::commit();
+
             return ApiResponseClass::sendResponse('User deleted successfully.', '', 200);
         } catch (\Exception $e) {
             return ApiResponseClass::rollback($e);

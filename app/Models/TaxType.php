@@ -12,6 +12,8 @@ class TaxType extends Model
 
     protected $table = 'tax_types';
 
+    protected $guarded = [];
+
     public function taxSchemas(): BelongsToMany {
         return $this->belongsToMany(
             TaxSchema::class,

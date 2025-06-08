@@ -2,15 +2,10 @@
 
 namespace App\Http\Requests;
 
-use App\Traits\RequestFailedValidation;
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Rule;
 
-class UpdateUserRequest extends FormRequest {
-    use RequestFailedValidation;
-
+class TaxSchemaCompositionRequest extends FormRequest {
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -25,12 +20,14 @@ class UpdateUserRequest extends FormRequest {
      */
     public function rules(): array {
         return [
-            'name' => 'string|max:255',
-            'email' => [
-                'email',
-                Rule::unique('users', 'email')->ignore($this->user),
+            'tax_schema_id' => 'required|exists:tax_schemas,id',
+            'tax_type_id' => [
+                'required',
+                'exists:tax_types,id',
+                Rule::unique('tax_schemas_compositions')->where(function ($query) {
+                    return $query->where('tax_schema_id', $this->input('tax_schema_id'));
+                })
             ],
-            'password' => 'string|min:8',
         ];
     }
 }

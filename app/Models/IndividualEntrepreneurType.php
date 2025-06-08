@@ -12,6 +12,8 @@ class IndividualEntrepreneurType extends Model
 
     protected $table = 'individual_entrepreneur_types';
 
+    protected $guarded = [];
+
     public function taxesPayments(): HasMany {
         return $this->hasMany(TaxesPayment::class, 'individual_entrepreneur_type_id', 'id');
     }
