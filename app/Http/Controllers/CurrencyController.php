@@ -20,14 +20,14 @@ class CurrencyController extends Controller {
     public function create() {}
 
     public function store(StoreCurrencyRequest $request) {
-        $storeDetails = [
+        $details = [
             'alfa-3' => $request['alfa-3'],
             'number-3' => $request['number-3'],
             'name' => $request->name,
         ];
         DB::beginTransaction();
         try {
-            $currency = Currency::create($storeDetails);
+            $currency = Currency::create($details);
             DB::commit();
 
             return ApiResponseClass::sendResponse(new CurrencyResource($currency), 'Currency created successfully.', 201);
@@ -45,14 +45,14 @@ class CurrencyController extends Controller {
     public function edit() {}
 
     public function update($id, UpdateCurrencyRequest $request) {
-        $updateDetails = [
+        $details = [
             'alfa-3' => $request['alfa-3'],
             'number-3' => $request['number-3'],
             'name' => $request->name,
         ];
         DB::beginTransaction();
         try {
-            $currency = Currency::whereId($id)->update($updateDetails);
+            $currency = Currency::whereId($id)->update($details);
             DB::commit();
 
             return ApiResponseClass::sendResponse('Currency updated successfully.', '', 200);

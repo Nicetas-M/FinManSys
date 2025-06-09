@@ -20,7 +20,7 @@ class TaxesPaymentController extends Controller
     public function create() {}
 
     public function store(TaxesPaymentRequest $request) {
-        $storeDetails = [
+        $details = [
             'user_id' => $request->user_id,
             'individual_entrepreneur_type_id' => $request->individual_entrepreneur_type_id,
             'tax_schema_id' => $request->tax_schema_id,
@@ -30,7 +30,7 @@ class TaxesPaymentController extends Controller
         ];
         DB::beginTransaction();
         try {
-            $taxesPayment = TaxesPayment::create($storeDetails);
+            $taxesPayment = TaxesPayment::create($details);
             DB::commit();
 
             return ApiResponseClass::sendResponse(
@@ -51,7 +51,7 @@ class TaxesPaymentController extends Controller
     public function edit() {}
 
     public function update($id, TaxesPaymentRequest $request) {
-        $updateDetails = [
+        $details = [
             'user_id' => $request->user_id,
             'individual_entrepreneur_type_id' => $request->individual_entrepreneur_type_id,
             'tax_schema_id' => $request->tax_schema_id,
@@ -61,7 +61,7 @@ class TaxesPaymentController extends Controller
         ];
         DB::beginTransaction();
         try {
-            $taxesPayment = TaxesPayment::whereId($id)->update($updateDetails);
+            $taxesPayment = TaxesPayment::whereId($id)->update($details);
             DB::commit();
 
             return ApiResponseClass::sendResponse('Taxes Payment updated successfully.', '', 200);

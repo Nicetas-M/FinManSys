@@ -4,13 +4,11 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateUserAccountRequest extends FormRequest
-{
+class FinancialOperationRequest extends FormRequest {
     /**
      * Determine if the user is authorized to make this request.
      */
-    public function authorize(): bool
-    {
+    public function authorize(): bool {
         return true;
     }
 
@@ -19,12 +17,11 @@ class UpdateUserAccountRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
-    {
+    public function rules(): array {
         return [
-            'user_id' => 'required|integer|exists:users,id',
-            'currency_id' => 'required|integer|exists:currencies,id',
-            'balance' => 'required|decimal:2|min:0|max:999999999999999.99',
+            'user_account_id' => 'required|exists:users,id',
+            'balance_change' => 'required|decimal:0,2|min:0|max:999999999999999.99',
+            'balance_after' => 'required|decimal:0,2|min:0|max:999999999999999.99',
         ];
     }
 }

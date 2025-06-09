@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Classes\ApiResponseClass;
-use App\Http\Requests\StoreFinancialOperationRequest;
-use App\Http\Requests\UpdateFinancialOperationRequest;
+use App\Http\Requests\FinancialOperationRequest;
 use App\Http\Resources\FinancialOperationResource;
 use App\Models\FinancialOperation;
 use Illuminate\Support\Facades\DB;
@@ -18,15 +17,15 @@ class FinancialOperationController extends Controller {
 
     public function create() {}
 
-    public function store(StoreFinancialOperationRequest $request) {
-        $storeDetails = [
+    public function store(FinancialOperationRequest $request) {
+        $details = [
             'user_account_id' => $request->user_account_id,
             'balance_change' => $request->balance_change,
             'balance_after' => $request->balance_after,
         ];
         DB::beginTransaction();
         try {
-            $financialOperation = FinancialOperation::create($storeDetails);
+            $financialOperation = FinancialOperation::create($details);
             DB::commit();
 
             return ApiResponseClass::sendResponse(
@@ -41,21 +40,21 @@ class FinancialOperationController extends Controller {
 
     public function show($id) {
         $financialOperation = FinancialOperation::findOrFail($id);
-        
+
         return ApiResponseClass::sendResponse(new FinancialOperationResource($financialOperation), '', 200);
     }
 
     public function edit() {}
 
-    public function update($id, UpdateFinancialOperationRequest $request) {
-        $updateDetails = [
+    public function update($id, FinancialOperationRequest $request) {
+        $details = [
             'user_account_id' => $request->user_account_id,
             'balance_change' => $request->balance_change,
             'balance_after' => $request->balance_after,
         ];
         DB::beginTransaction();
         try {
-            $financialOperation = FinancialOperation::whereId($id)->update($updateDetails);
+            $financialOperation = FinancialOperation::whereId($id)->update($details);
             DB::commit();
 
             return ApiResponseClass::sendResponse('Financial Operation updated successfully.', '', 200);

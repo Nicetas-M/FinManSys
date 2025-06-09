@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateTaxTypeRequest extends FormRequest {
+class UserAccountRequest extends FormRequest {
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -19,8 +19,9 @@ class UpdateTaxTypeRequest extends FormRequest {
      */
     public function rules(): array {
         return [
-            'name' => 'required|string',
-            'formula' => 'string',
+            'user_id' => 'required|integer|exists:users,id',
+            'currency_id' => 'required|integer|exists:currencies,id',
+            'balance' => 'required|decimal:2|min:0|max:999999999999999.99',
         ];
     }
 }

@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\FinancialOperationController;
-use App\Http\Controllers\IndividualEntrepreneurTypeController;
+use App\Http\Controllers\IETypeController;
 use App\Http\Controllers\TaxesPaymentController;
 use App\Http\Controllers\TaxSchemaCompositionController;
 use App\Http\Controllers\TaxSchemaController;
@@ -25,7 +25,8 @@ Route::apiResource('/tax-schemas', TaxSchemaController::class);
 
 Route::apiResource('/tax-schemas-compositions', TaxSchemaCompositionController::class);
 
-Route::apiResource('/individual-entrepreneur-types', IndividualEntrepreneurTypeController::class);
+//individual-entrepreneur-types
+Route::apiResource('/ie-types', IETypeController::class);
 
 Route::apiResource('/taxes-payments', TaxesPaymentController::class);
 

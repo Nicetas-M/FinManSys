@@ -20,7 +20,7 @@ class UserController extends Controller {
     public function create() {}
 
     public function store(StoreUserRequest $request) {
-        $storeDetails = [
+        $details = [
             'name' => $request->name,
             'email' => $request->email,
             'password' => $request->password,
@@ -28,7 +28,7 @@ class UserController extends Controller {
         ];
         DB::beginTransaction();
         try {
-            $user = User::create($storeDetails);
+            $user = User::create($details);
             DB::commit();
 
             return ApiResponseClass::sendResponse(new UserResource($user), 'User created successfully.', 201);
@@ -46,7 +46,7 @@ class UserController extends Controller {
     public function edit() {}
 
     public function update($id, UpdateUserRequest $request) {
-        $updateDetails = [
+        $details = [
             'name' => $request->name,
             'email' => $request->email,
             'password' => $request->password,
@@ -54,7 +54,7 @@ class UserController extends Controller {
         ];
         DB::beginTransaction();
         try {
-            $user = User::whereId($id)->update($updateDetails);
+            $user = User::whereId($id)->update($details);
             DB::commit();
 
             return ApiResponseClass::sendResponse('User updated successfully.', '', 200);

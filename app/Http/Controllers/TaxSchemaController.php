@@ -20,13 +20,13 @@ class TaxSchemaController extends Controller
     public function create() {}
 
     public function store(TaxSchemaRequest $request) {
-        $storeDetails = [
+        $details = [
             'name' => $request->name,
             'description' => $request->description,
         ];
         DB::beginTransaction();
         try {
-            $taxSchema = TaxSchema::create($storeDetails);
+            $taxSchema = TaxSchema::create($details);
             DB::commit();
 
             return ApiResponseClass::sendResponse(new TaxSchemaResource($taxSchema), 'Tax Schema created successfully.', 201);
@@ -44,13 +44,13 @@ class TaxSchemaController extends Controller
     public function edit() {}
 
     public function update($id, TaxSchemaRequest $request) {
-        $updateDetails = [
+        $details = [
             'name' => $request->name,
             'description' => $request->description,
         ];
         DB::beginTransaction();
         try {
-            $taxSchema = TaxSchema::whereId($id)->update($updateDetails);
+            $taxSchema = TaxSchema::whereId($id)->update($details);
             DB::commit();
 
             return ApiResponseClass::sendResponse('Tax Schema updated successfully.', '', 200);

@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Classes\ApiResponseClass;
-use App\Http\Requests\StoreUserAccountRequest;
-use App\Http\Requests\UpdateUserAccountRequest;
+use App\Http\Requests\UserAccountRequest;
 use App\Http\Resources\UserAccountResource;
 use App\Models\UserAccount;
 use Illuminate\Support\Facades\DB;
@@ -19,15 +18,15 @@ class UserAccountController extends Controller {
 
     public function create() {}
 
-    public function store(StoreUserAccountRequest $request) {
-        $storeDetails = [
+    public function store(UserAccountRequest $request) {
+        $details = [
             'user_id' => $request->user_id,
             'currency_id' => $request->currency_id,
             'balance' => $request->balance,
         ];
         DB::beginTransaction();
         try {
-            $userAccount = UserAccount::create($storeDetails);
+            $userAccount = UserAccount::create($details);
             DB::commit();
 
             return ApiResponseClass::sendResponse(new UserAccountResource($userAccount), 'User Account created successfully.', 201);
@@ -44,15 +43,15 @@ class UserAccountController extends Controller {
 
     public function edit() {}
 
-    public function update($id, UpdateUserAccountRequest $request) {
-        $updateDetails = [
+    public function update($id, UserAccountRequest $request) {
+        $details = [
             'user_id' => $request->user_id,
             'currency_id' => $request->currency_id,
             'balance' => $request->balance,
         ];
         DB::beginTransaction();
         try {
-            $userAccount = UserAccount::whereId($id)->update($updateDetails);
+            $userAccount = UserAccount::whereId($id)->update($details);
             DB::commit();
 
             return ApiResponseClass::sendResponse('User Account updated successfully.', '', 200);

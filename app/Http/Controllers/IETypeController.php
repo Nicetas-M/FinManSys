@@ -3,24 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Classes\ApiResponseClass;
-use App\Http\Requests\IndividualEntrepreneurTypeRequest;
-use App\Http\Resources\IndividualEntrepreneurTypeResource;
+use App\Http\Requests\IETypeRequest;
+use App\Http\Resources\IETypeResource;
 use App\Models\IndividualEntrepreneurType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class IndividualEntrepreneurTypeController extends Controller
+class IETypeController extends Controller
 {
     public function index() {
         $data = IndividualEntrepreneurType::all();
 
-        return ApiResponseClass::sendResponse(IndividualEntrepreneurTypeResource::collection($data), '', 200);
+        return ApiResponseClass::sendResponse(IETypeResource::collection($data), '', 200);
     }
 
     public function create() {}
 
-    public function store(IndividualEntrepreneurTypeRequest $request) {
-        $storeDetails = [
+    public function store(IETypeRequest $request) {
+        $details = [
             'name' => $request->name,
             'description' => $request->description,
             'income_limit' => $request->income_limit,
@@ -28,11 +28,11 @@ class IndividualEntrepreneurTypeController extends Controller
         ];
         DB::beginTransaction();
         try {
-            $IEType = IndividualEntrepreneurType::create($storeDetails);
+            $IEType = IndividualEntrepreneurType::create($details);
             DB::commit();
 
             return ApiResponseClass::sendResponse(
-                new IndividualEntrepreneurTypeResource($IEType),
+                new IETypeResource($IEType),
                 'Individual Entrepreneur Type created successfully.',
                 201
             );
@@ -44,13 +44,13 @@ class IndividualEntrepreneurTypeController extends Controller
     public function show($id) {
         $IEType = IndividualEntrepreneurType::findOrFail($id);
 
-        return ApiResponseClass::sendResponse(new IndividualEntrepreneurTypeResource($IEType), '', 200);
+        return ApiResponseClass::sendResponse(new IETypeResource($IEType), '', 200);
     }
 
     public function edit() {}
 
-    public function update($id, IndividualEntrepreneurTypeRequest $request) {
-        $updateDetails = [
+    public function update($id, IETypeRequest $request) {
+        $details = [
             'name' => $request->name,
             'description' => $request->description,
             'income_limit' => $request->income_limit,
@@ -58,7 +58,7 @@ class IndividualEntrepreneurTypeController extends Controller
         ];
         DB::beginTransaction();
         try {
-            $IEType = IndividualEntrepreneurType::whereId($id)->update($updateDetails);
+            $IEType = IndividualEntrepreneurType::whereId($id)->update($details);
             DB::commit();
 
             return ApiResponseClass::sendResponse('Individual Entrepreneur Type updated successfully.', '', 200);

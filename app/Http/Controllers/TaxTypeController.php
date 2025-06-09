@@ -3,14 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Classes\ApiResponseClass;
-use App\Http\Requests\StoreTaxTypeRequest;
-use App\Http\Requests\UpdateTaxTypeRequest;
+use App\Http\Requests\TaxTypeRequest;
 use App\Http\Resources\TaxTypeResource;
 use App\Models\TaxType;
 use Illuminate\Support\Facades\DB;
 
-class TaxTypeController extends Controller
-{
+class TaxTypeController extends Controller {
     public function index() {
         $data = TaxType::all();
 
@@ -19,14 +17,14 @@ class TaxTypeController extends Controller
 
     public function create() {}
 
-    public function store(StoreTaxTypeRequest $request) {
-        $storeDetails = [
+    public function store(TaxTypeRequest $request) {
+        $details = [
             'name' => $request->name,
             'formula' => $request->formula,
         ];
         DB::beginTransaction();
         try {
-            $taxType = TaxType::create($storeDetails);
+            $taxType = TaxType::create($details);
             DB::commit();
 
             return ApiResponseClass::sendResponse(new TaxTypeResource($taxType), 'Tax Type created successfully.', 201);
@@ -43,14 +41,14 @@ class TaxTypeController extends Controller
 
     public function edit() {}
 
-    public function update($id, UpdateTaxTypeRequest $request) {
-        $updateDetails = [
+    public function update($id, TaxTypeRequest $request) {
+        $details = [
             'name' => $request->name,
             'formula' => $request->formula,
         ];
         DB::beginTransaction();
         try {
-            $taxType = TaxType::whereId($id)->update($updateDetails);
+            $taxType = TaxType::whereId($id)->update($details);
             DB::commit();
 
             return ApiResponseClass::sendResponse('Tax Type updated successfully.', '', 200);
